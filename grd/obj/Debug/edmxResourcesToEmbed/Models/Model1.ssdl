@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bookShopModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="bookShopModelStoreContainer">
+    <EntitySet Name="Books" EntityType="bookShopModel.Store.Books" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="carts" EntityType="bookShopModel.Store.carts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="categories" EntityType="bookShopModel.Store.categories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="checkouts" EntityType="bookShopModel.Store.checkouts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="users" EntityType="bookShopModel.Store.users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_dbo_Books_dbo_categories_catId" Association="bookShopModel.Store.FK_dbo_Books_dbo_categories_catId">
+      <End Role="categories" EntitySet="categories" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Books">
+    <Key>
+      <PropertyRef Name="bookId" />
+    </Key>
+    <Property Name="bookId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="bookName" Type="nvarchar(max)" />
+    <Property Name="publishYear" Type="nvarchar(max)" />
+    <Property Name="price" Type="float" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="authorName" Type="nvarchar(max)" />
+    <Property Name="catId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="carts">
+    <Key>
+      <PropertyRef Name="cartId" />
+    </Key>
+    <Property Name="cartId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="nvarchar(max)" />
+    <Property Name="bookId" Type="nvarchar(max)" />
+    <Property Name="bookName" Type="nvarchar(max)" />
+    <Property Name="categoryName" Type="nvarchar(max)" />
+    <Property Name="price" Type="float" Nullable="false" />
+    <Property Name="authorName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="categories">
+    <Key>
+      <PropertyRef Name="catId" />
+    </Key>
+    <Property Name="catId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="catName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="checkouts">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="bookId" Type="nvarchar(max)" />
+    <Property Name="bookName" Type="nvarchar(max)" />
+    <Property Name="userId" Type="nvarchar(max)" />
+    <Property Name="categoryName" Type="nvarchar(max)" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="price" Type="float" Nullable="false" />
+    <Property Name="authorName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="username" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" />
+    <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="pass" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="phone" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Books_dbo_categories_catId">
+    <End Role="categories" Type="bookShopModel.Store.categories" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Books" Type="bookShopModel.Store.Books" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categories">
+        <PropertyRef Name="catId" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="catId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

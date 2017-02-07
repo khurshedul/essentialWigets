@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bookShopModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="bookDbContext" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Books" EntityType="bookShopModel.Book" />
+    <EntitySet Name="carts" EntityType="bookShopModel.cart" />
+    <EntitySet Name="categories" EntityType="bookShopModel.category" />
+    <EntitySet Name="checkouts" EntityType="bookShopModel.checkout" />
+    <EntitySet Name="users" EntityType="bookShopModel.user" />
+    <AssociationSet Name="FK_dbo_Books_dbo_categories_catId" Association="bookShopModel.FK_dbo_Books_dbo_categories_catId">
+      <End Role="categories" EntitySet="categories" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="bookId" />
+    </Key>
+    <Property Name="bookId" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="bookName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="publishYear" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="price" Type="Double" Nullable="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="authorName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="catId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="category" Relationship="bookShopModel.FK_dbo_Books_dbo_categories_catId" FromRole="Books" ToRole="categories" />
+  </EntityType>
+  <EntityType Name="cart">
+    <Key>
+      <PropertyRef Name="cartId" />
+    </Key>
+    <Property Name="cartId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="bookId" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="bookName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="categoryName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="price" Type="Double" Nullable="false" />
+    <Property Name="authorName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="catId" />
+    </Key>
+    <Property Name="catId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="catName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Books" Relationship="bookShopModel.FK_dbo_Books_dbo_categories_catId" FromRole="categories" ToRole="Books" />
+  </EntityType>
+  <EntityType Name="checkout">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="bookId" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="bookName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="userId" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="categoryName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Double" Nullable="false" />
+    <Property Name="authorName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="username" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="type" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="pass" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="address" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="phone" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Books_dbo_categories_catId">
+    <End Role="categories" Type="bookShopModel.category" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Books" Type="bookShopModel.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categories">
+        <PropertyRef Name="catId" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="catId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

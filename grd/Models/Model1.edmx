@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bookShopModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="bookShopModelStoreContainer">
+          <EntitySet Name="Books" EntityType="bookShopModel.Store.Books" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="carts" EntityType="bookShopModel.Store.carts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="categories" EntityType="bookShopModel.Store.categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="checkouts" EntityType="bookShopModel.Store.checkouts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="users" EntityType="bookShopModel.Store.users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_dbo_Books_dbo_categories_catId" Association="bookShopModel.Store.FK_dbo_Books_dbo_categories_catId">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="bookId" />
+          </Key>
+          <Property Name="bookId" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="bookName" Type="nvarchar(max)" />
+          <Property Name="publishYear" Type="nvarchar(max)" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="authorName" Type="nvarchar(max)" />
+          <Property Name="catId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="carts">
+          <Key>
+            <PropertyRef Name="cartId" />
+          </Key>
+          <Property Name="cartId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="nvarchar(max)" />
+          <Property Name="bookId" Type="nvarchar(max)" />
+          <Property Name="bookName" Type="nvarchar(max)" />
+          <Property Name="categoryName" Type="nvarchar(max)" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="authorName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="categories">
+          <Key>
+            <PropertyRef Name="catId" />
+          </Key>
+          <Property Name="catId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="catName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="checkouts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="bookId" Type="nvarchar(max)" />
+          <Property Name="bookName" Type="nvarchar(max)" />
+          <Property Name="userId" Type="nvarchar(max)" />
+          <Property Name="categoryName" Type="nvarchar(max)" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="authorName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="username" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="type" Type="nvarchar(max)" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="pass" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="phone" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_Books_dbo_categories_catId">
+          <End Role="categories" Type="bookShopModel.Store.categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Books" Type="bookShopModel.Store.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="catId" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="catId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bookShopModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="bookDbContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Books" EntityType="bookShopModel.Book" />
+          <EntitySet Name="carts" EntityType="bookShopModel.cart" />
+          <EntitySet Name="categories" EntityType="bookShopModel.category" />
+          <EntitySet Name="checkouts" EntityType="bookShopModel.checkout" />
+          <EntitySet Name="users" EntityType="bookShopModel.user" />
+          <AssociationSet Name="FK_dbo_Books_dbo_categories_catId" Association="bookShopModel.FK_dbo_Books_dbo_categories_catId">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="bookId" />
+          </Key>
+          <Property Name="bookId" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="bookName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="publishYear" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="authorName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="catId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="category" Relationship="bookShopModel.FK_dbo_Books_dbo_categories_catId" FromRole="Books" ToRole="categories" />
+        </EntityType>
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="cartId" />
+          </Key>
+          <Property Name="cartId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="bookId" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="bookName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="categoryName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="authorName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="catId" />
+          </Key>
+          <Property Name="catId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="catName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Books" Relationship="bookShopModel.FK_dbo_Books_dbo_categories_catId" FromRole="categories" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="checkout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="bookId" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="bookName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="userId" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="categoryName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="authorName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="username" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="type" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="pass" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="address" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_dbo_Books_dbo_categories_catId">
+          <End Role="categories" Type="bookShopModel.category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Books" Type="bookShopModel.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="catId" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="catId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bookShopModelStoreContainer" CdmEntityContainer="bookDbContext">
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="bookShopModel.Book">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="bookId" ColumnName="bookId" />
+                <ScalarProperty Name="bookName" ColumnName="bookName" />
+                <ScalarProperty Name="publishYear" ColumnName="publishYear" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="authorName" ColumnName="authorName" />
+                <ScalarProperty Name="catId" ColumnName="catId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carts">
+            <EntityTypeMapping TypeName="bookShopModel.cart">
+              <MappingFragment StoreEntitySet="carts">
+                <ScalarProperty Name="cartId" ColumnName="cartId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="bookId" ColumnName="bookId" />
+                <ScalarProperty Name="bookName" ColumnName="bookName" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="authorName" ColumnName="authorName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="bookShopModel.category">
+              <MappingFragment StoreEntitySet="categories">
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="catName" ColumnName="catName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="checkouts">
+            <EntityTypeMapping TypeName="bookShopModel.checkout">
+              <MappingFragment StoreEntitySet="checkouts">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="bookId" ColumnName="bookId" />
+                <ScalarProperty Name="bookName" ColumnName="bookName" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="authorName" ColumnName="authorName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="bookShopModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
