@@ -1,4 +1,5 @@
-﻿@{
+﻿@model grd.Models.category
+@{
     Layout = null;
 }
 
@@ -66,7 +67,26 @@
         <br /><br />
         @ViewBag.Message
     }
+
+     <input type="text" id="field" /><input id="addBtn" type="button" value="Add Row" />
+    <table id="x" border="1">
+    <tr>
+       
+    </tr>
+</table>
+
+
+        <script type="text/javascript">
+            $("#addBtn").on("click", function () {
+
+                var newRow = "<tr><td>"+$("#field").val()+"</td></tr>";
+
+                $("#x").append(newRow);
+
+            });
+        </script>
     
+
 </body>
     
 </html>

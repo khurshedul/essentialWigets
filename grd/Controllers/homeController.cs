@@ -37,7 +37,8 @@ namespace grd.Controllers
         [HttpPost]
         public ActionResult Index(string CustomerName, string CustomerId)
         {
-            ViewBag.Message = "CustomerName: " + CustomerName + " CustomerId: " + CustomerId;
+           // ViewBag.Message = "CustomerName: " + CustomerName + " CustomerId: " + CustomerId;
+            
             return View();
         }
  
